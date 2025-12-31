@@ -1,0 +1,12 @@
+.env
+venv/
+__pycache__/
+*.pyc
+.DS_Store
+.ipynb_checkpoints
+data_list.json
+preprocessed_data.json
+Schema.docx
+commands.txt
+bus_service_index.faiss
+~$Schema.docx
