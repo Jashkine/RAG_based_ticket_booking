@@ -1,4 +1,3 @@
-faiss-cpu
 numpy
 openai==0.28 
 python-dotenv
