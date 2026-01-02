@@ -22,6 +22,7 @@ def query_llm_for_parameters(user_query: str) -> dict:
                 - Any date in YYYY-MM-DD → 'travel_date'
                 - Include a field **only if it appears in the query**.
                 - Do **not guess or overwrite** any field.
+                - also standardize the city names to proper nouns (e.g., 'Bengaluru' to 'Bangalore', 'blr' to 'Bangalore' etc ).
                - The output must be **wrapped in a JSON markdown code block**, like this:
                 ```json
                 {{

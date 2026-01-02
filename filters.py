@@ -1,41 +1,3 @@
-# def filter_by_field(data, key, value, nested=False):
-#     result = []
-#     for e in data:
-#         val = e
-#         if nested and "." in key:
-#             for k in key.split("."):
-#                 val = val.get(k, {}) if isinstance(val, dict) else {}
-#             if not val:
-#                 val = None
-#         else:
-#             val = e.get(key, None)
-#         if val == value or (isinstance(value, str) and value.lower() in str(val).lower()):
-#             result.append(e)
-#     return result
-
-# def retrieve_relevant_info(data, parameters):
-#     results = data
-#     # Filter example: source, destination, travel_date, bus_type, is_ac, is_sleeper
-#     if "source" in parameters:
-#         results = filter_by_field(results, "source", parameters["source"], nested=True)
-#     if "destination" in parameters:
-#         results = filter_by_field(results, "destination", parameters["destination"], nested=True)
-#     if "travel_date" in parameters:
-#         results = filter_by_field(results, "doj", parameters["travel_date"])
-#     if "bus_type" in parameters:
-#         results = filter_by_field(results, "busType", parameters["bus_type"])
-#     if "is_ac" in parameters:
-#         results = filter_by_field(results, "isAc", parameters["is_ac"])
-#     if "is_sleeper" in parameters:
-#         results = filter_by_field(results, "isSleeper", parameters["is_sleeper"])
-#     if "ratings_above" in parameters:
-#         results = [e for e in results if e.get("totalRatings", 0) >= parameters["ratings_above"]]
-#     if "rs555" in parameters:
-#         results = filter_by_field(results, "rs555", parameters["rs555"])
-#     # Sort by ratings
-#     results.sort(key=lambda x: x.get("totalRatings", 0), reverse=True)
-#     return results
-
 
 def retrieve_relevant_info(data, parameters):
     results = data  # start with full dataset
@@ -97,17 +59,10 @@ def retrieve_relevant_info(data, parameters):
         ]
 
     # -------- LIVE TRACKING --------
-    if "is_live_tracking_available" in parameters:
+    if "isLiveTrackingAvailable" in parameters:
         results = [
             e for e in results
-            if e.get("isLiveTrackingAvailable") == parameters["is_live_tracking_available"]
-        ]
-
-    # -------- MTICKET --------
-    if "is_mticket_enabled" in parameters:
-        results = [
-            e for e in results
-            if e.get("isMticketEnabled") == parameters["is_mticket_enabled"]
+            if e.get("isLiveTrackingAvailable") == parameters["isLiveTrackingAvailable"]
         ]
 
     # -------- RATINGS --------
@@ -154,6 +109,118 @@ def retrieve_relevant_info(data, parameters):
             e for e in results
             if e.get("rs555") is not None and e.get("rs555") == parameters["rs555"]
         ]
+
+    if "isFlexiOperator" in parameters:
+        results = [
+            e for e in results
+            if e.get("isFlexiOperator") is not None
+            and e.get("isFlexiOperator") == parameters["isFlexiOperator"]
+        ]
+
+    # -------- RED DEAL --------
+    if "redDeal_Offer_is_available" in parameters:
+        results = [
+            e for e in results
+            if e.get("redDeal_Offer_is_available") is not None
+            and e.get("redDeal_Offer_is_available") == parameters["redDeal_Offer_is_available"]
+        ]
+
+    # -------- DISCOUNT --------
+    if "discount_is_available" in parameters:
+        results = [
+            e for e in results
+            if e.get("discount_is_available") is not None
+            and e.get("discount_is_available") == parameters["discount_is_available"]
+        ]
+
+    # -------- RTC BUS --------
+    if "isRTC" in parameters:
+        results = [
+            e for e in results
+            if e.get("isRTC") is not None
+            and e.get("isRTC") == parameters["isRTC"]
+        ]
+
+    # -------- RESCHEDULED --------
+    if "isRescheduled" in parameters:
+        results = [
+            e for e in results
+            if e.get("isRescheduled") is not None
+            and e.get("isRescheduled") == parameters["isRescheduled"]
+        ]
+
+    # -------- MTICKET --------
+    if "isMticketEnabled" in parameters:
+        results = [
+            e for e in results
+            if e.get("isMticketEnabled") is not None
+            and e.get("isMticketEnabled") == parameters["isMticketEnabled"]
+        ]
+
+    # -------- FLEXI CANCELLATION --------
+    if "isPartialCancellationAllowed" in parameters:
+        results = [
+            e for e in results
+            if e.get("isPartialCancellationAllowed") is not None
+            and e.get("isPartialCancellationAllowed") == parameters["isPartialCancellationAllowed"]
+        ]
+
+    # -------- CHEAPER THAN TERMINAL --------
+    if "cheaperThanTerminal" in parameters:
+        results = [
+            e for e in results
+            if e.get("cheaperThanTerminal") is not None
+            and e.get("cheaperThanTerminal") == parameters["cheaperThanTerminal"]
+        ]
+
+        # -------- AVAILABLE WINDOW SEATS --------
+    if "availableWindowSeats" in parameters:
+        results = [
+            e for e in results
+            if e.get("availableWindowSeats") is not None
+            and e.get("availableWindowSeats") >= parameters["availableWindowSeats"]
+        ]
+
+    # -------- AVAILABLE SINGLE SEATS --------
+    if "availableSingleSeats" in parameters:
+        results = [
+            e for e in results
+            if e.get("availableSingleSeats") is not None
+            and e.get("availableSingleSeats") >= parameters["availableSingleSeats"]
+        ]
+
+    # -------- AVAILABLE SEATS --------
+    if "availableSeats" in parameters:
+        results = [
+            e for e in results
+            if e.get("availableSeats") is not None
+            and e.get("availableSeats") >= parameters["availableSeats"]
+        ]
+
+    # -------- AVAILABLE AISLE SEATS --------
+    if "availableAisleSeats" in parameters:
+        results = [
+            e for e in results
+            if e.get("availableAisleSeats") is not None
+            and e.get("availableAisleSeats") >= parameters["availableAisleSeats"]
+        ]
+
+    # -------- AVAILABLE UPPER SEATS --------
+    if "availableUpperSeats" in parameters:
+        results = [
+            e for e in results
+            if e.get("availableUpperSeats") is not None
+            and e.get("availableUpperSeats") >= parameters["availableUpperSeats"]
+        ]
+
+    # -------- AVAILABLE LOWER SEATS --------
+    if "availableLowerSeats" in parameters:
+        results = [
+            e for e in results
+            if e.get("availableLowerSeats") is not None
+            and e.get("availableLowerSeats") >= parameters["availableLowerSeats"]
+        ]
+
 
     results.sort(key=lambda x: x.get("totalRatings", 0), reverse=True)
     return results
